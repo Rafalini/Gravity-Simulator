@@ -1,5 +1,6 @@
+import java.awt.*;
 import java.awt.geom.Ellipse2D;
-import java.awt.Color;
+import java.util.ArrayList;
 
 public class Planet
 {
@@ -7,6 +8,9 @@ public class Planet
     private double Xvel, Yvel;
     private double mass, r;
     private Ellipse2D.Double Elipse;
+    private ArrayList<Dimension>  LinePoints;
+
+    static final int LinePointsLimit=300;
     Color myColor;
 
     public Planet(View aView, double Xpos, double Ypos, double Xvel, double Yvel, double mass)
@@ -21,6 +25,7 @@ public class Planet
         this.mass = mass;
         double dim = Math.pow(this.mass,(double)1/3);
         r = dim/2;
+        LinePoints = new ArrayList<Dimension>();
         Elipse = new Ellipse2D.Double(Xpos-r+aView.getWidth()/2, aView.getHeight()/2 -Ypos - r, dim, dim);
         if(aView.getSelectedLogItem()>1)
             aView.LogEvent("Utworzono objekt! X=" +(int)this.Xpos+" Y="+(int)this.Ypos+" Vx="+this.Xvel+" Vy="+this.Yvel+" M="+this.mass+"\n");
@@ -37,6 +42,7 @@ public class Planet
         this.mass = mass;
         double dim = Math.pow(this.mass,(double)1/3);
         r = dim/2;
+        LinePoints = new ArrayList<Dimension>();
         Elipse = new Ellipse2D.Double(Xpos-r+aView.getWidth()/2, aView.getHeight()/2 -(Ypos+r), dim, dim);
         if(aView.getSelectedLogItem()>1)
             aView.LogEvent("Utworzono objekt! X=" +(int)this.Xpos+" Y="+(int)this.Ypos+" Vx="+this.Xvel+" Vy="+this.Yvel+" M="+this.mass+"\n");
@@ -51,8 +57,17 @@ public class Planet
     public double getRadious() { return r; }
     public Color getColor() { return myColor;}
 
-    public void Xcorrection(double Cor) {this.Xpos = this.Xpos + Cor; }
-    public void Ycorrection(double Cor) {this.Ypos = this.Ypos + Cor; }
+    public void Xcorrection(double Cor) {this.Xpos += Cor; }
+    public void Ycorrection(double Cor) {this.Ypos += Cor; }
+    public void PosTracking()
+    {
+        if(LinePoints.size()>Planet.LinePointsLimit)
+           LinePoints.remove(0);
+
+        Dimension dim = new Dimension();
+        dim.setSize(Xpos, Ypos);
+        LinePoints.add(dim);
+    }
 
     public void vXcorrection(double Cor) {this.Xvel = this.Xvel + Cor;}
     public void vYcorrection(double Cor) {this.Yvel = this.Yvel + Cor;}
@@ -68,4 +83,6 @@ public class Planet
         this.mass += planetka.getMass();
         this.r = Math.pow(this.mass,(double)1/3)/2;
     }
+
+    public ArrayList<Dimension> GetPath() {return LinePoints;}
 }

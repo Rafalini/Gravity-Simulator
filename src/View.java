@@ -17,10 +17,11 @@ public class View extends JFrame
     JButton PresetButton, TimePlusButton, TimeMinusButton, ResetButton;
     JRadioButton AllDetails, SomeDetails, TurnOff;
     ButtonGroup LiveLogOptions;
+    JCheckBox TracksCheck;
 
     public View()
     {
-        Space = new MapPanel();
+        Space = new MapPanel(this);
         this.setSize(MapWidth, MapHeight);
         this.setTitle("Okno na wszechświat");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -142,6 +143,9 @@ public class View extends JFrame
         LiveLogPanel.add(AllDetails);
         LiveLogPanel.add(SomeDetails);
         LiveLogPanel.add(TurnOff);
+
+        TracksCheck = new JCheckBox("Ścieżki planet");
+        LiveLogPanel.add(TracksCheck);
         AllDetails.setSelected(true);
 
         LiveLog = new JTextArea(10,30);
@@ -305,5 +309,12 @@ public class View extends JFrame
     {
         try {return Integer.parseInt(StarLiveTimeField.getText());}
         catch(NumberFormatException e) {return StarTimeSlider.getValue();}
+    }
+    public boolean TracksSet ()
+    {
+        if(TracksCheck.isSelected())
+            return true;
+        else
+            return false;
     }
 }

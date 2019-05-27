@@ -69,6 +69,7 @@ public class Model
             {
                 Planetki.get(i).Xcorrection(Planetki.get(i).getXvel() * timebase);
                 Planetki.get(i).Ycorrection(Planetki.get(i).getYvel() * timebase);
+                Planetki.get(i).PosTracking();
 
                 Planetki.get(i).vXcorrection(dvX[i] / 2);
                 Planetki.get(i).vYcorrection(dvY[i] / 2);
@@ -94,7 +95,7 @@ public class Model
                     double curentRadius = 2*SeedRadius;
                     int planetsOnRing;
                     double angle, SeedXpos, SeedYpos;
-                    for (int j = 0; j < (int)circles+10; j++)
+                    for (int j = 0; j < (int)circles+7; j++)
                     {
                         planetsOnRing  = (int)Math.round(2*Math.PI*curentRadius/(2*SeedRadius));
                         angle = 2*Math.PI/planetsOnRing;

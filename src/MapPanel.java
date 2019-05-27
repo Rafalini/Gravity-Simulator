@@ -1,14 +1,19 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseListener;
+import java.awt.geom.Line2D;
 import java.util.ArrayList;
 
 class MapPanel extends JComponent
 {
     ArrayList<Planet> Planetki;
+    ArrayList<Dimension> tmp;
+    Shape line;
+    View aView;
 
-    public MapPanel()
+    public MapPanel(View aView)
     {
+        this.aView = aView;
         Planetki = new ArrayList<Planet>();
     }
     public void update(ArrayList<Planet> Planetki)
@@ -30,9 +35,21 @@ class MapPanel extends JComponent
             {
                 g2.setColor(Planetki.get(i).getColor());
                 g2.fill(Planetki.get(i).getElipse());
+
+                if(aView.TracksSet())
+                {
+                    tmp = Planetki.get(i).GetPath();
+                    for(int j=0; j<tmp.size()-1; j++)
+                    {
+                        line = new Line2D.Double(tmp.get(j).getWidth()+aView.getWidth()/2, aView.getHeight()/2 -tmp.get(j).getHeight(),
+                                tmp.get(j+1).getWidth()+aView.getWidth()/2, aView.getHeight()/2 -tmp.get(j).getHeight());
+                        g2.draw(line);
+                    }
+                }
             }
         }
         catch (NullPointerException e) {}
+        catch (IndexOutOfBoundsException e) {}
 
     }
 
