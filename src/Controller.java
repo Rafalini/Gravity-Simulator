@@ -57,7 +57,7 @@ public class Controller
         }
         calculationtime += 5;
 
-        theView.display_stats(calculationtime, Planetki.size(), theView.getTimeSliderValue());
+        theView.display_stats(calculationtime, Planetki.size(), theView.getTimeTextValue());
     }
 
     class MapPanelListener implements MouseListener         //Myszka na mapce
@@ -239,8 +239,13 @@ public class Controller
                     }
                 break;
                 case 3:
-
-                    break;
+                  int Xcount = (int)Math.random()*5+1;
+                  int Ycount = (int)Math.random()*5+1;
+                  for(int i=0; i<Xcount; i++)
+                    for(int j=0; j<Ycount; j++)
+                      Planetki.add(new Star(theView, (i+1)*300, (j+1)*300,
+                      Math.random()*2-1, Math.random()*2-1, (Math.random()+0.2)*theView.getMassFromText(), theView.getStarTime()));
+                break;
             }
         }
     }

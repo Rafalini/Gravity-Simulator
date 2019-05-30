@@ -17,7 +17,7 @@ public class View extends JFrame
     JButton PresetButton, TimePlusButton, TimeMinusButton, ResetButton;
     JRadioButton AllDetails, SomeDetails, TurnOff;
     ButtonGroup LiveLogOptions;
-    JCheckBox TracksCheck;
+    JCheckBox TracksCheck, MoreLinesCheck;
 
     public View()
     {
@@ -145,7 +145,9 @@ public class View extends JFrame
         LiveLogPanel.add(TurnOff);
 
         TracksCheck = new JCheckBox("Ścieżki planet");
+        MoreLinesCheck = new JCheckBox("inne kreski");
         LiveLogPanel.add(TracksCheck);
+        LiveLogPanel.add(MoreLinesCheck);
         AllDetails.setSelected(true);
 
         LiveLog = new JTextArea(10,30);
@@ -313,6 +315,13 @@ public class View extends JFrame
     public boolean TracksSet ()
     {
         if(TracksCheck.isSelected())
+            return true;
+        else
+            return false;
+    }
+    public boolean MoreLinesSet ()
+    {
+        if(MoreLinesCheck.isSelected())
             return true;
         else
             return false;

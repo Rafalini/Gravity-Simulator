@@ -42,11 +42,20 @@ class MapPanel extends JComponent
                     for(int j=0; j<tmp.size()-1; j++)
                     {
                         line = new Line2D.Double(tmp.get(j).getWidth()+aView.getWidth()/2, aView.getHeight()/2 -tmp.get(j).getHeight(),
-                                tmp.get(j+1).getWidth()+aView.getWidth()/2, aView.getHeight()/2 -tmp.get(j).getHeight());
+                                              tmp.get(j+1).getWidth()+aView.getWidth()/2, aView.getHeight()/2 -tmp.get(j+1).getHeight());
                         g2.draw(line);
                     }
                 }
             }
+            if(aView.MoreLinesSet())
+              for(int i=0; i<Planetki.size(); i++)
+                for(int j=i+1; j<Planetki.size(); j++)
+                {
+                  g2.setColor(Color.WHITE);
+                  line = new Line2D.Double(Planetki.get(i).getXpos()+aView.getWidth()/2, aView.getHeight()/2-Planetki.get(i).getYpos(),
+                                           Planetki.get(j).getXpos()+aView.getWidth()/2, aView.getHeight()/2-Planetki.get(j).getYpos());
+                  g2.draw(line);
+                }
         }
         catch (NullPointerException e) {}
         catch (IndexOutOfBoundsException e) {}

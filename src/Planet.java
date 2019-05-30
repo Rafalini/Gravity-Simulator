@@ -10,7 +10,7 @@ public class Planet
     private Ellipse2D.Double Elipse;
     private ArrayList<Dimension>  LinePoints;
 
-    static final int LinePointsLimit=300;
+    static final int LinePointsLimit=600;
     Color myColor;
 
     public Planet(View aView, double Xpos, double Ypos, double Xvel, double Yvel, double mass)
