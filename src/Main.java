@@ -1,3 +1,7 @@
+import mechanics.*;
+import space_obj.*;
+import display.*;
+
 public class Main
 {
     public static void main (String[]args)
