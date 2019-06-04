@@ -18,12 +18,12 @@ public class Star extends Planet
     public void decreaseLifeTime ()
     {
         this.LeftLifeTime--;
-        double tmp;
+        double color_changer=0;
         if(LifeTime!=0)
-            tmp = 249 * LeftLifeTime/LifeTime;
+            color_changer = 249 * LeftLifeTime/LifeTime;
         else
-            tmp = 0;
-        colorTime = (int) Math.abs(tmp);
+            color_changer = 0;
+        colorTime = (int) Math.abs(color_changer);
         myColor = new Color(227, colorTime, 0);
     }
 }

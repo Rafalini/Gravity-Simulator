@@ -45,7 +45,7 @@ public class Controller
             reset = false;
             Planetki.clear();
         }
-        theModel.recalculate(Planetki, theView.getTimeTextValue(), theMapPanel, theView);
+        theModel.next_simulation_setp(Planetki, theView.getTimeTextValue(), theMapPanel, theView);
         theMapPanel.update(Planetki);
         theMapPanel.repaint();
 

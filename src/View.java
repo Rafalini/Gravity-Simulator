@@ -40,8 +40,8 @@ public class View extends JFrame
         JFrame MenuFrame = new JFrame();
         MenuFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         MenuFrame.setTitle("Centrum dowodzenia wszechświatem");
-        MenuFrame.setLocation(1000,0);
-        MenuFrame.setSize(500,650);
+        MenuFrame.setLocation(1100,0);
+        MenuFrame.setSize(550,650);
         MenuFrame.setResizable(true);
 
         JPanel MenuPanel = new JPanel();
