@@ -14,7 +14,7 @@ public class Controller
     View theView;
     Model theModel;
     MapPanel theMapPanel;
-    ArrayList<Planet> Planetki;
+    ArrayList<Planet> planets;
     boolean reset = false;
     long begintime;
     int calculations_counter=0;
@@ -24,7 +24,7 @@ public class Controller
         this.theView = aView;
         this.theModel = aModel;
         this.theMapPanel = theView.getMapPanel();
-        Planetki = new ArrayList<Planet>();
+        planets = new ArrayList<Planet>();
         //Gwiazdki = new ArrayList<Star>();
 
         theMapPanel.addActionListener(new MapPanelListener());
@@ -48,26 +48,26 @@ public class Controller
         if (reset)
         {
             reset = false;
-            Planetki.clear();
+            planets.clear();
         }
 
         if (calculations_counter < 1)
         {
-            theModel.next_simulation_setp(Planetki, theView.getTimeTextValue(), theMapPanel, theView);
-            theMapPanel.update(Planetki);
+            theModel.next_simulation_setp(planets, theView.getTimeTextValue(), theView);
+            theMapPanel.update(planets);
             calculations_counter++;
          }
         long calculationtime = System.currentTimeMillis()-begintime;
         if(calculationtime>15)
         {
-            if(theView.getSelectedLogItem()>1)
+            if(theView.getSelectedLogItem()==0)
                 theView.LogEvent("Czas generowania ramki: "+calculationtime+" [ms]");
             calculations_counter=0;
             begintime = System.currentTimeMillis();
             //try{TimeUnit.MILLISECONDS.sleep(10- (int)calculationtime);}
             //catch(InterruptedException e) {}
             theMapPanel.repaint();
-            theView.display_stats(calculationtime, Planetki.size(), theView.getTimeTextValue());
+            theView.display_stats(calculationtime, planets.size(), theView.getTimeTextValue());
         }
     }
 
@@ -75,16 +75,16 @@ public class Controller
     {
         public void mouseClicked(MouseEvent e)
         {
-            double Xvel, Yvel, Mass;
+            double xVel, yVel, mass;
             int StarTime;
-            Xvel = theView.getXvelFromText();
-            Yvel = theView.getYvelFromText();
-            Mass = theView.getMassFromText();
+            xVel = theView.getXvelFromText();
+            yVel = theView.getYvelFromText();
+            mass = theView.getMassFromText();
             StarTime = theView.getStarTime();
             if(theView.getSelectedObj() == 0)
-                Planetki.add(new Planet(theView,e.getX()-theView.getWidth()/2, theView.getHeight()/2-e.getY(), Xvel, Yvel, Mass));
+                planets.add(new Planet(theView,e.getX()-theView.getWidth()/2, theView.getHeight()/2-e.getY(), xVel, yVel, mass));
             else
-                Planetki.add(new Star(theView,e.getX()-theView.getWidth()/2, theView.getHeight()/2-e.getY(), Xvel, Yvel, Mass, StarTime));
+                planets.add(new Star(theView,e.getX()-theView.getWidth()/2, theView.getHeight()/2-e.getY(), xVel, yVel, mass, StarTime));
         }
         public void mouseEntered(MouseEvent e) {}
         public void mouseExited(MouseEvent e) {}
@@ -125,8 +125,8 @@ public class Controller
     {
         public void actionPerformed(ActionEvent e)
         {
-            int planets = theView.getPresetTextValue();
-            double Xpos, Ypos, Mass, Xvel, Yvel;
+            int planetsAmount = theView.getPresetTextValue();
+            double xPos, yPos, mass, xVel, yVel;
             double Xcenter = theView.getWidth()/2;
             double Ycenter = theView.getHeight()/2;
             Dimension VelVector;
@@ -134,8 +134,8 @@ public class Controller
             {
                 case 0: //siatka
                     theView.LogEvent("Tworzenie siatki...");
-                    Planetki.add(new Star(theView, 0, 0, 0, 0, 15*theView.getMassFromText(), theView.getStarTime()));
-                    int side = planets;
+                    planets.add(new Star(theView, 0, 0, 0, 0, 15*theView.getMassFromText(), theView.getStarTime()));
+                    int side = planetsAmount;
                     double baseXdistance;
                     double baseYdistance;
                     if(side>1)
@@ -151,65 +151,65 @@ public class Controller
                     for(int i=0; i<side; i++)
                         for(int j=0; j<side; j++)
                         {
-                            Xpos = -0.5*theView.getWidth() +j*baseXdistance;
-                            Ypos = -0.5*theView.getHeight() +i*baseYdistance;
+                            xPos = -0.5*theView.getWidth() +j*baseXdistance;
+                            yPos = -0.5*theView.getHeight() +i*baseYdistance;
                             if(theView.getSelectedMassPreset()==1)
-                                Mass = (Math.random()*theView.getMassFromText()+125)/planets;
+                                mass = (Math.random()*theView.getMassFromText()+125)/planetsAmount;
                             else
-                                Mass = (theView.getMassFromText())/planets;
+                                mass = (theView.getMassFromText())/planetsAmount;
                             switch (theView.getSelectedVelPresetItem())
                             {
                                 case 0:
-                                    VelVector = GeomFunctions.VelVectorforSpiral(Xpos, Ypos, theView, Math.pow(theView.getPresetTextValue(), 0.75)*theView.getMassFromText());
-                                    Planetki.add(new Planet(theView, Xpos, Ypos, VelVector.getWidth(), VelVector.getHeight(), Mass));
+                                    VelVector = GeomFunctions.velVectorforCircle(xPos, yPos, Math.pow(theView.getPresetTextValue(), 0.75)*theView.getMassFromText());
+                                    planets.add(new Planet(theView, xPos, yPos, VelVector.getWidth(), VelVector.getHeight(), mass));
                                     break;
                                 case 1:
-                                    Xvel = Math.random()*theView.getXvelFromText()-theView.getXvelFromText()/2;
-                                    Yvel = Math.random()*theView.getYvelFromText()-theView.getYvelFromText()/2;
-                                    Planetki.add(new Planet(theView, Xpos, Ypos, Xvel, Yvel, Mass));
+                                    xVel = Math.random()*theView.getXvelFromText()-theView.getXvelFromText()/2;
+                                    yVel = Math.random()*theView.getYvelFromText()-theView.getYvelFromText()/2;
+                                    planets.add(new Planet(theView, xPos, yPos, xVel, yVel, mass));
                                     break;
-                                case 2: Planetki.add(new Planet(theView,Xpos,Ypos,0,0,Mass)); break;
+                                case 2: planets.add(new Planet(theView,xPos,yPos,0,0,mass)); break;
                             }
                         }
                 break;  //okręgi
                 case 1:
                     theView.LogEvent("Tworzenie okręgów...");
-                    Planetki.add(new Star(theView, 0, 0, 0, 0, 15*theView.getMassFromText(), theView.getStarTime()));
+                    planets.add(new Star(theView, 0, 0, 0, 0, 15*theView.getMassFromText(), theView.getStarTime()));
                     double radius = 0.4 * theView.getWidth();
                     double angle=0;
-                    Mass = theView.getMassFromText();
-                    int planetsOnRing = (int)(Math.PI * radius / (5*Math.pow(Mass, (double)1/3)));
-                    while(planets>0)
+                    mass = theView.getMassFromText();
+                    int planetsOnRing = (int)(Math.PI * radius / (5*Math.pow(mass, (double)1/3)));
+                    while(planetsAmount>0)
                     {
-                        if (planets - planetsOnRing > 0)
-                            planets -= planetsOnRing;
+                        if (planetsAmount - planetsOnRing > 0)
+                            planetsAmount -= planetsOnRing;
                         else
                         {
-                            planetsOnRing = planets;
-                            planets = 0;
+                            planetsOnRing = planetsAmount;
+                            planetsAmount = 0;
                         }
                         angle = 2*Math.PI/planetsOnRing;
                         for (int i = 0; i < planetsOnRing; i++)
                         {
-                            Xpos = radius*Math.cos(angle*i);
-                            Ypos = radius*Math.sin(angle*i);
+                            xPos = radius*Math.cos(angle*i);
+                            yPos = radius*Math.sin(angle*i);
                             if (theView.getSelectedMassPreset() == 1)
-                                Mass = Math.random() * theView.getMassFromText() + 125;
+                                mass = Math.random() * theView.getMassFromText() + 125;
                             else
-                                Mass = theView.getMassFromText();
+                                mass = theView.getMassFromText();
                             switch (theView.getSelectedVelPresetItem())
                             {
                                 case 0:
-                                    VelVector = GeomFunctions.VelVectorforSpiral(Xpos, Ypos, theView, 15 * theView.getMassFromText());
-                                    Planetki.add(new Planet(theView, Xpos, Ypos, VelVector.getWidth(), VelVector.getHeight(), Mass));
+                                    VelVector = GeomFunctions.velVectorforCircle(xPos, yPos, 15 * theView.getMassFromText());
+                                    planets.add(new Planet(theView, xPos, yPos, VelVector.getWidth(), VelVector.getHeight(), mass));
                                     break;
                                 case 1:
-                                    Xvel = Math.random() * theView.getXvelFromText() - theView.getXvelFromText() / 2;
-                                    Yvel = Math.random() * theView.getYvelFromText() - theView.getYvelFromText() / 2;
-                                    Planetki.add(new Planet(theView, Xpos, Ypos, Xvel, Yvel, Mass));
+                                    xVel = Math.random() * theView.getXvelFromText() - theView.getXvelFromText() / 2;
+                                    yVel = Math.random() * theView.getYvelFromText() - theView.getYvelFromText() / 2;
+                                    planets.add(new Planet(theView, xPos, yPos, xVel, yVel, mass));
                                     break;
                                 case 2:
-                                    Planetki.add(new Planet(theView, Xpos, Ypos, 0, 0, Mass));
+                                    planets.add(new Planet(theView, xPos, yPos, 0, 0, mass));
                                     break;
                             }
                         }
@@ -218,33 +218,33 @@ public class Controller
                 break;
                 case 2: ///spirale
                     theView.LogEvent("Tworzenie spiral...");
-                    Planetki.add(new Star(theView, 0, 0, 0, 0, 15*theView.getMassFromText(), theView.getStarTime()));
-                    int bow = (int)planets/2;
+                    planets.add(new Star(theView, 0, 0, 0, 0, 15*theView.getMassFromText(), theView.getStarTime()));
+                    int bow = (int)planetsAmount/2;
                     double basedistance = 0.6*theView.getWidth()/(bow+1);
                     for(int i=0; i<bow; i++)
                     {
                         if(theView.getSelectedMassPreset()==1)
-                            Mass = Math.random()*theView.getMassFromText()+125;
+                            mass = Math.random()*theView.getMassFromText()+125;
                         else
-                            Mass = theView.getMassFromText();
-                        Ypos = (-0.3*theView.getHeight() +i*basedistance);
-                        Ypos = (-0.3*theView.getHeight() +i*basedistance);
+                            mass = theView.getMassFromText();
+                        yPos = (-0.3*theView.getHeight() +i*basedistance);
+                        yPos = (-0.3*theView.getHeight() +i*basedistance);
                         switch (theView.getSelectedVelPresetItem())
                         {
                             case 0:
-                                VelVector = GeomFunctions.VelVectorforSpiral(0, Ypos, theView, 15*theView.getMassFromText());
-                                Planetki.add(new Planet(theView, 0, Ypos, VelVector.getWidth(), VelVector.getHeight(), Mass));
-                                Planetki.add(new Planet(theView, 0, -Ypos, -VelVector.getWidth(), -VelVector.getHeight(), Mass));
+                                VelVector = GeomFunctions.velVectorforCircle(0, yPos, 15*theView.getMassFromText());
+                                planets.add(new Planet(theView, 0, yPos, VelVector.getWidth(), VelVector.getHeight(), mass));
+                                planets.add(new Planet(theView, 0, -yPos, -VelVector.getWidth(), -VelVector.getHeight(), mass));
                                 break;
                             case 1:
-                                Xvel = Math.random()*theView.getXvelFromText()-theView.getXvelFromText()/2;
-                                Yvel = Math.random()*theView.getYvelFromText()-theView.getYvelFromText()/2;
-                                Planetki.add(new Planet(theView, 0, Ypos, Xvel, Yvel, Mass));
-                                Planetki.add(new Planet(theView, 0, -Ypos, Xvel, Yvel, Mass));
+                                xVel = Math.random()*theView.getXvelFromText()-theView.getXvelFromText()/2;
+                                yVel = Math.random()*theView.getYvelFromText()-theView.getYvelFromText()/2;
+                                planets.add(new Planet(theView, 0, yPos, xVel, yVel, mass));
+                                planets.add(new Planet(theView, 0, -yPos, xVel, yVel, mass));
                                 break;
                             case 2:
-                                Planetki.add(new Planet(theView, 0,Ypos,0,0,Mass));
-                                Planetki.add(new Planet(theView, 0,-Ypos,0,0,Mass));
+                                planets.add(new Planet(theView, 0,yPos,0,0,mass));
+                                planets.add(new Planet(theView, 0,-yPos,0,0,mass));
                                 break;
                         }
                     }
@@ -256,16 +256,16 @@ public class Controller
                     for(int i=0; i<side; i++)
                         for(int j=0; j<side; j++)
                         {
-                            Xpos = -0.4*theView.getWidth() +j*baseXdistance;
-                            Ypos = -0.4*theView.getHeight() +i*baseYdistance;
+                            xPos = -0.4*theView.getWidth() +j*baseXdistance;
+                            yPos = -0.4*theView.getHeight() +i*baseYdistance;
                             if(theView.getSelectedMassPreset()==1)
-                                Mass = (Math.random()*theView.getMassFromText()+125)/planets;
+                                mass = (Math.random()*theView.getMassFromText()+125)/planetsAmount;
                             else
-                                Mass = (theView.getMassFromText())/planets;
+                                mass = (theView.getMassFromText())/planetsAmount;
 
-                            Xvel = 7+ (Math.random()-0.5)*5 +j*i;
-                            Yvel = 7+ (Math.random()-0.5)*5 +j*i;
-                            Planetki.add(new Star(theView, Xpos, Ypos, Xvel, Yvel, 20000, 20+(j+1)*(i+1)*3));
+                            xVel = 7+ (Math.random()-0.5)*5 +j*i;
+                            yVel = 7+ (Math.random()-0.5)*5 +j*i;
+                            planets.add(new Star(theView, xPos, yPos, xVel, yVel, 20000, 20+(j+1)*(i+1)*3));
                         }
                 break;
             }

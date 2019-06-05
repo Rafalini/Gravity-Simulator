@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class MapPanel extends JComponent
 {
-    ArrayList<Planet> Planetki;
+    ArrayList<Planet> planets;
     ArrayList<Dimension> tmp;
     Shape line;
     View aView;
@@ -17,11 +17,11 @@ public class MapPanel extends JComponent
     public MapPanel(View aView)
     {
         this.aView = aView;
-        Planetki = new ArrayList<Planet>();
+        planets = new ArrayList<Planet>();
     }
-    public void update(ArrayList<Planet> Planetki)
+    public void update(ArrayList<Planet> planets)
     {
-        this.Planetki = Planetki;
+        this.planets = planets;
     }
     public void paint(Graphics g)
     {
@@ -34,14 +34,14 @@ public class MapPanel extends JComponent
         g2.fillRect(0,0,getWidth(),getHeight());
         try
         {
-            for(int i=0; i<Planetki.size(); i++)
+            for(int i=0; i<planets.size(); i++)
             {
-                g2.setColor(Planetki.get(i).getColor());
-                g2.fill(Planetki.get(i).getElipse());
+                g2.setColor(planets.get(i).getColor());
+                g2.fill(planets.get(i).getElipse());
 
                 if(aView.TracksSet())
                 {
-                    tmp = Planetki.get(i).GetPath();
+                    tmp = planets.get(i).GetPath();
                     for(int j=0; j<tmp.size()-1; j++)
                     {
                         line = new Line2D.Double(tmp.get(j).getWidth()+aView.getWidth()/2, aView.getHeight()/2 -tmp.get(j).getHeight(),
@@ -51,12 +51,12 @@ public class MapPanel extends JComponent
                 }
             }
             if(aView.MoreLinesSet())
-              for(int i=0; i<Planetki.size(); i++)
-                for(int j=i+1; j<Planetki.size(); j++)
+              for(int i=0; i<planets.size(); i++)
+                for(int j=i+1; j<planets.size(); j++)
                 {
                   g2.setColor(Color.WHITE);
-                  line = new Line2D.Double(Planetki.get(i).getXpos()+aView.getWidth()/2, aView.getHeight()/2-Planetki.get(i).getYpos(),
-                                           Planetki.get(j).getXpos()+aView.getWidth()/2, aView.getHeight()/2-Planetki.get(j).getYpos());
+                  line = new Line2D.Double(planets.get(i).getXpos()+aView.getWidth()/2, aView.getHeight()/2-planets.get(i).getYpos(),
+                                           planets.get(j).getXpos()+aView.getWidth()/2, aView.getHeight()/2-planets.get(j).getYpos());
                   g2.draw(line);
                 }
         }

@@ -5,25 +5,25 @@ import java.awt.*;
 
 public class Star extends Planet
 {
-    double LeftLifeTime;
-    double LifeTime;
+    double leftLifeTime;
+    double lifeTime;
     int colorTime;
 
-    public Star(View aView, double Xpos, double Ypos, double Xvel, double Yvel, double mass, double LifeTime)
+    public Star(View aView, double Xpos, double Ypos, double Xvel, double Yvel, double mass, double lifeTime)
     {
         super(aView, Xpos, Ypos, Xvel, Yvel, mass);
-        this.LeftLifeTime = LifeTime*500;
-        this.LifeTime = LifeTime*500;
+        this.leftLifeTime = lifeTime*500;
+        this.lifeTime = lifeTime*500;
         colorTime = 249;
         this.myColor = new Color(227, colorTime, 0);
     }
-    public double getLifeTime () {return LeftLifeTime;}
+    public double getLifeTime () {return leftLifeTime;}
     public void decreaseLifeTime ()
     {
-        this.LeftLifeTime--;
+        this.leftLifeTime--;
         double tmp;
-        if(LifeTime!=0)
-            tmp = 249 * LeftLifeTime/LifeTime;
+        if(lifeTime!=0)
+            tmp = 249 * leftLifeTime/lifeTime;
         else
             tmp = 0;
         colorTime = (int) Math.abs(tmp);
