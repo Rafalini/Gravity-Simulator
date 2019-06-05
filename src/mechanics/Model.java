@@ -1,9 +1,7 @@
 package mechanics;
 
-//import mechanics.*;
 import space_obj.*;
 import display.*;
-
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -140,12 +138,13 @@ public class Model
                     i = 0;
                 }
                 else
-                    for(int j=0; j<i_timebase; j++)
-                    {
-                        if(((Star) Planetki.get(i)).getLifeTime() == 5000)
-                            aView.LogEvent("Gwiada kończy swoje życie, nidługo wybuchnie");
-                        ((Star) Planetki.get(i)).decreaseLifeTime();
-                    }
+                    if(((Star) Planetki.get(i)).getLifeTime() != 50000)
+                        for(int j=0; j<i_timebase; j++)
+                        {
+                            if(((Star) Planetki.get(i)).getLifeTime() == 5000)
+                                aView.LogEvent("Gwiada kończy swoje życie, nidługo wybuchnie");
+                            ((Star) Planetki.get(i)).decreaseLifeTime();
+                        }
             }
         }
     }

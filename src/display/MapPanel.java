@@ -1,9 +1,6 @@
 package display;
 
-import mechanics.*;
 import space_obj.*;
-//import display.*;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseListener;

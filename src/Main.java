@@ -1,5 +1,4 @@
 import mechanics.*;
-import space_obj.*;
 import display.*;
 
 public class Main

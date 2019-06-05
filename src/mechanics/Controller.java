@@ -1,9 +1,7 @@
 package mechanics;
 
-//import mechanics.*;
 import space_obj.*;
 import display.*;
-
 import java.awt.Dimension;
 import java.util.concurrent.TimeUnit;
 import java.util.ArrayList;
@@ -18,7 +16,8 @@ public class Controller
     MapPanel theMapPanel;
     ArrayList<Planet> Planetki;
     boolean reset = false;
-    long startTime = System.currentTimeMillis();
+    long begintime;
+    int calculations_counter=0;
 
     public Controller(View aView, Model aModel)
     {
@@ -39,31 +38,37 @@ public class Controller
         theView.addStarTimeSliderListener(new StarTimeSliderListener());
         theView.addObjSelectionListener(new ObjSelectionListener());
 
+        begintime = System.currentTimeMillis();
         for(;;)
         {recalculate_and_repaint();}
     }
 
     public void recalculate_and_repaint()
     {
-        long begintime = System.currentTimeMillis();
-        if(reset)
+        if (reset)
         {
             reset = false;
             Planetki.clear();
         }
-        theModel.next_simulation_setp(Planetki, theView.getTimeTextValue(), theMapPanel, theView);
-        theMapPanel.update(Planetki);
-        theMapPanel.repaint();
 
-        long calculationtime = System.currentTimeMillis()-begintime;
-        if(calculationtime<5)
+        if (calculations_counter < 1)
         {
-            try{TimeUnit.MILLISECONDS.sleep(5-calculationtime);}
-            catch(InterruptedException e) {}
+            theModel.next_simulation_setp(Planetki, theView.getTimeTextValue(), theMapPanel, theView);
+            theMapPanel.update(Planetki);
+            calculations_counter++;
+         }
+        long calculationtime = System.currentTimeMillis()-begintime;
+        if(calculationtime>15)
+        {
+            if(theView.getSelectedLogItem()>1)
+                theView.LogEvent("Czas generowania ramki: "+calculationtime+" [ms]");
+            calculations_counter=0;
+            begintime = System.currentTimeMillis();
+            //try{TimeUnit.MILLISECONDS.sleep(10- (int)calculationtime);}
+            //catch(InterruptedException e) {}
+            theMapPanel.repaint();
+            theView.display_stats(calculationtime, Planetki.size(), theView.getTimeTextValue());
         }
-        calculationtime += 5;
-
-        theView.display_stats(calculationtime, Planetki.size(), theView.getTimeTextValue());
     }
 
     class MapPanelListener implements MouseListener         //Myszka na mapce
@@ -245,12 +250,23 @@ public class Controller
                     }
                 break;
                 case 3:
-                  int Xcount = (int)Math.random()*5+1;
-                  int Ycount = (int)Math.random()*5+1;
-                  for(int i=0; i<Xcount; i++)
-                    for(int j=0; j<Ycount; j++)
-                      Planetki.add(new Star(theView, (i+1)*300, (j+1)*300,
-                      Math.random()*2-1, Math.random()*2-1, (Math.random()+0.2)*theView.getMassFromText(), theView.getStarTime()));
+                    side = 3;
+                    baseXdistance = theView.getWidth()/(side+1);
+                    baseYdistance = theView.getHeight()/(side+1);
+                    for(int i=0; i<side; i++)
+                        for(int j=0; j<side; j++)
+                        {
+                            Xpos = -0.4*theView.getWidth() +j*baseXdistance;
+                            Ypos = -0.4*theView.getHeight() +i*baseYdistance;
+                            if(theView.getSelectedMassPreset()==1)
+                                Mass = (Math.random()*theView.getMassFromText()+125)/planets;
+                            else
+                                Mass = (theView.getMassFromText())/planets;
+
+                            Xvel = 7+ (Math.random()-0.5)*5 +j*i;
+                            Yvel = 7+ (Math.random()-0.5)*5 +j*i;
+                            Planetki.add(new Star(theView, Xpos, Ypos, Xvel, Yvel, 20000, 20+(j+1)*(i+1)*3));
+                        }
                 break;
             }
         }

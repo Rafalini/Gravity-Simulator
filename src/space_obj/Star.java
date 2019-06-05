@@ -1,9 +1,6 @@
 package space_obj;
 
-import mechanics.*;
-//import space_obj.*;
 import display.*;
-
 import java.awt.*;
 
 public class Star extends Planet

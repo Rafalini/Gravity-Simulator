@@ -1,7 +1,5 @@
 package mechanics;
 
-//import mechanics.*;
-import space_obj.*;
 import display.*;
 import java.awt.Dimension;
 
@@ -20,7 +18,7 @@ public class GeomFunctions
         double Ycenter = (double) aView.getHeight();
         double baseVel = Math.sqrt(  Math.pow(aView.getXvelFromText(),2) + Math.pow(aView.getYvelFromText(),2)  ) /3;
 
-        double dir_fact, baseVx, Vx, Vy;
+        double Vx, Vy;
         // |v| = sqrt( x^2+y^2 ) = sqrt( x^2+(ay)^2 )   a = d/dx( y(x) )
         // x^2 + y^2 = r^2    y(x) = sqrt( r^2 - x^2 )  y'(x) = -x/sqrt( r^2 - x^2 )
         // m|v|^2/r = GMm/r^2    |v| = sqrt ( GM/r ) -> |v| = sqrt( x^2 + y^2 ) = sqrt( x^2+(ay)^2 )

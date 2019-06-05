@@ -1,9 +1,5 @@
 package display;
 
-import mechanics.*;
-import space_obj.*;
-//import display.*;
-
 import java.awt.*;
 import java.awt.event.ActionListener;
 import javax.swing.*;
@@ -238,7 +234,7 @@ public class View extends JFrame
 
     public void display_stats(long time, int planets, double time_count)
     {
-        FPSLabel.setText("FPS:  "+ 1000/(time+1) +"   Obiektów:  "+planets+"  Mnożnik Czasu:  "+time_count);
+        FPSLabel.setText("FPS:  "+ 1000/(time) +"   Obiektów:  "+planets+"  Mnożnik Czasu:  "+time_count);
     }
 
     public void addTimeSliderListener (ChangeListener cl) { TimeSlider.addChangeListener(cl);}
