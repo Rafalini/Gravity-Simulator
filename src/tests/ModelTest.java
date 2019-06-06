@@ -27,8 +27,8 @@ public class ModelTest
     {
         planets.add(new Planet(aView, 0.,0.,0.,0.,(200.*200.*200.)));  //r = 0.5 * m^(1/3)
         planets.add(new Planet(aView, 150.,0.,-10.,0.,(200.*200.*200.)));
-        assertEquals(2, planets.size());
-        aModel.next_simulation_setp(planets, 0.0, aView);
+        assertEquals(2, planets.size());            //just before impact
+        aModel.next_simulation_setp(planets, 0.0, aView); //Range <= R + 0.5*r
         assertEquals(2, planets.size());
 
         aModel.next_simulation_setp(planets, 10., aView); //time != 0 -> movement will occur

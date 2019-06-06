@@ -125,148 +125,19 @@ public class Controller
     {
         public void actionPerformed(ActionEvent e)
         {
-            int planetsAmount = theView.getPresetTextValue();
-            double xPos, yPos, mass, xVel, yVel;
-            double Xcenter = theView.getWidth()/2;
-            double Ycenter = theView.getHeight()/2;
-            Dimension VelVector;
             switch(theView.getSelectedPresetItem())
             {
                 case 0: //siatka
-                    theView.LogEvent("Tworzenie siatki...");
-                    planets.add(new Star(theView, 0, 0, 0, 0, 15*theView.getMassFromText(), theView.getStarTime()));
-                    int side = planetsAmount;
-                    double baseXdistance;
-                    double baseYdistance;
-                    if(side>1)
-                    {
-                        baseXdistance = theView.getWidth()/(side-1);
-                        baseYdistance = theView.getHeight()/(side-1);
-                    }
-                    else
-                    {
-                        baseXdistance = theView.getWidth();
-                        baseYdistance = theView.getHeight();
-                    }
-                    for(int i=0; i<side; i++)
-                        for(int j=0; j<side; j++)
-                        {
-                            xPos = -0.5*theView.getWidth() +j*baseXdistance;
-                            yPos = -0.5*theView.getHeight() +i*baseYdistance;
-                            if(theView.getSelectedMassPreset()==1)
-                                mass = (Math.random()*theView.getMassFromText()+125)/planetsAmount;
-                            else
-                                mass = (theView.getMassFromText())/planetsAmount;
-                            switch (theView.getSelectedVelPresetItem())
-                            {
-                                case 0:
-                                    VelVector = GeomFunctions.velVectorforCircle(xPos, yPos, Math.pow(theView.getPresetTextValue(), 0.75)*theView.getMassFromText());
-                                    planets.add(new Planet(theView, xPos, yPos, VelVector.getWidth(), VelVector.getHeight(), mass));
-                                    break;
-                                case 1:
-                                    xVel = Math.random()*theView.getXvelFromText()-theView.getXvelFromText()/2;
-                                    yVel = Math.random()*theView.getYvelFromText()-theView.getYvelFromText()/2;
-                                    planets.add(new Planet(theView, xPos, yPos, xVel, yVel, mass));
-                                    break;
-                                case 2: planets.add(new Planet(theView,xPos,yPos,0,0,mass)); break;
-                            }
-                        }
+                   gridLayout();
                 break;  //okręgi
                 case 1:
-                    theView.LogEvent("Tworzenie okręgów...");
-                    planets.add(new Star(theView, 0, 0, 0, 0, 15*theView.getMassFromText(), theView.getStarTime()));
-                    double radius = 0.4 * theView.getWidth();
-                    double angle=0;
-                    mass = theView.getMassFromText();
-                    int planetsOnRing = (int)(Math.PI * radius / (5*Math.pow(mass, (double)1/3)));
-                    while(planetsAmount>0)
-                    {
-                        if (planetsAmount - planetsOnRing > 0)
-                            planetsAmount -= planetsOnRing;
-                        else
-                        {
-                            planetsOnRing = planetsAmount;
-                            planetsAmount = 0;
-                        }
-                        angle = 2*Math.PI/planetsOnRing;
-                        for (int i = 0; i < planetsOnRing; i++)
-                        {
-                            xPos = radius*Math.cos(angle*i);
-                            yPos = radius*Math.sin(angle*i);
-                            if (theView.getSelectedMassPreset() == 1)
-                                mass = Math.random() * theView.getMassFromText() + 125;
-                            else
-                                mass = theView.getMassFromText();
-                            switch (theView.getSelectedVelPresetItem())
-                            {
-                                case 0:
-                                    VelVector = GeomFunctions.velVectorforCircle(xPos, yPos, 15 * theView.getMassFromText());
-                                    planets.add(new Planet(theView, xPos, yPos, VelVector.getWidth(), VelVector.getHeight(), mass));
-                                    break;
-                                case 1:
-                                    xVel = Math.random() * theView.getXvelFromText() - theView.getXvelFromText() / 2;
-                                    yVel = Math.random() * theView.getYvelFromText() - theView.getYvelFromText() / 2;
-                                    planets.add(new Planet(theView, xPos, yPos, xVel, yVel, mass));
-                                    break;
-                                case 2:
-                                    planets.add(new Planet(theView, xPos, yPos, 0, 0, mass));
-                                    break;
-                            }
-                        }
-                        radius*=(double)2/3;
-                    }
+                    circleLayout();
                 break;
                 case 2: ///spirale
-                    theView.LogEvent("Tworzenie spiral...");
-                    planets.add(new Star(theView, 0, 0, 0, 0, 15*theView.getMassFromText(), theView.getStarTime()));
-                    int bow = (int)planetsAmount/2;
-                    double basedistance = 0.6*theView.getWidth()/(bow+1);
-                    for(int i=0; i<bow; i++)
-                    {
-                        if(theView.getSelectedMassPreset()==1)
-                            mass = Math.random()*theView.getMassFromText()+125;
-                        else
-                            mass = theView.getMassFromText();
-                        yPos = (-0.3*theView.getHeight() +i*basedistance);
-                        yPos = (-0.3*theView.getHeight() +i*basedistance);
-                        switch (theView.getSelectedVelPresetItem())
-                        {
-                            case 0:
-                                VelVector = GeomFunctions.velVectorforCircle(0, yPos, 15*theView.getMassFromText());
-                                planets.add(new Planet(theView, 0, yPos, VelVector.getWidth(), VelVector.getHeight(), mass));
-                                planets.add(new Planet(theView, 0, -yPos, -VelVector.getWidth(), -VelVector.getHeight(), mass));
-                                break;
-                            case 1:
-                                xVel = Math.random()*theView.getXvelFromText()-theView.getXvelFromText()/2;
-                                yVel = Math.random()*theView.getYvelFromText()-theView.getYvelFromText()/2;
-                                planets.add(new Planet(theView, 0, yPos, xVel, yVel, mass));
-                                planets.add(new Planet(theView, 0, -yPos, xVel, yVel, mass));
-                                break;
-                            case 2:
-                                planets.add(new Planet(theView, 0,yPos,0,0,mass));
-                                planets.add(new Planet(theView, 0,-yPos,0,0,mass));
-                                break;
-                        }
-                    }
+                    spiralLayout();
                 break;
                 case 3:
-                    side = 3;
-                    baseXdistance = theView.getWidth()/(side+1);
-                    baseYdistance = theView.getHeight()/(side+1);
-                    for(int i=0; i<side; i++)
-                        for(int j=0; j<side; j++)
-                        {
-                            xPos = -0.4*theView.getWidth() +j*baseXdistance;
-                            yPos = -0.4*theView.getHeight() +i*baseYdistance;
-                            if(theView.getSelectedMassPreset()==1)
-                                mass = (Math.random()*theView.getMassFromText()+125)/planetsAmount;
-                            else
-                                mass = (theView.getMassFromText())/planetsAmount;
-
-                            xVel = 7+ (Math.random()-0.5)*5 +j*i;
-                            yVel = 7+ (Math.random()-0.5)*5 +j*i;
-                            planets.add(new Star(theView, xPos, yPos, xVel, yVel, 20000, 20+(j+1)*(i+1)*3));
-                        }
+                    fireworks();
                 break;
             }
         }
@@ -299,4 +170,149 @@ public class Controller
             theView.setCorrectOptions();
         }
     }
+    private void gridLayout()
+    {
+        int planetsAmount = theView.getPresetTextValue();
+        double xPos, yPos, mass, xVel, yVel;
+        Dimension VelVector;
+        theView.LogEvent("Tworzenie siatki...");
+        planets.add(new Star(theView, 0, 0, 0, 0, 15*theView.getMassFromText(), theView.getStarTime()));
+        int side = planetsAmount;
+        double baseXdistance;
+        double baseYdistance;
+        if(side>1)
+        {
+            baseXdistance = theView.getWidth()/(side-1);
+            baseYdistance = theView.getHeight()/(side-1);
+        }
+        else
+        {
+            baseXdistance = theView.getWidth();
+            baseYdistance = theView.getHeight();
+        }
+        for(int i=0; i<side; i++)
+            for(int j=0; j<side; j++)
+            {
+                xPos = -0.5*theView.getWidth() +j*baseXdistance;
+                yPos = -0.5*theView.getHeight() +i*baseYdistance;
+                if(theView.getSelectedMassPreset()==1)
+                    mass = (Math.random()*theView.getMassFromText()+125)/planetsAmount;
+                else
+                    mass = (theView.getMassFromText())/planetsAmount;
+                switch (theView.getSelectedVelPresetItem())
+                {
+                    case 0:
+                        VelVector = GeomFunctions.velVectorforCircle(xPos, yPos, Math.pow(theView.getPresetTextValue(), 0.75)*theView.getMassFromText());
+                        planets.add(new Planet(theView, xPos, yPos, VelVector.getWidth(), VelVector.getHeight(), mass));
+                        break;
+                    case 1:
+                        xVel = Math.random()*theView.getXvelFromText()-theView.getXvelFromText()/2;
+                        yVel = Math.random()*theView.getYvelFromText()-theView.getYvelFromText()/2;
+                        planets.add(new Planet(theView, xPos, yPos, xVel, yVel, mass));
+                        break;
+                    case 2: planets.add(new Planet(theView,xPos,yPos,0,0,mass)); break;
+                }
+            }
+    }
+    private void circleLayout()
+    {
+        int planetsAmount = theView.getPresetTextValue();
+        double xPos, yPos, mass, xVel, yVel;
+        Dimension VelVector;
+        theView.LogEvent("Tworzenie okręgów...");
+        planets.add(new Star(theView, 0, 0, 0, 0, 15*theView.getMassFromText(), theView.getStarTime()));
+        double radius = 0.4 * theView.getWidth();
+        double angle=0;
+        mass = theView.getMassFromText();
+        int planetsOnRing = (int)(Math.PI * radius / (5*Math.pow(mass, (double)1/3)));
+        while(planetsAmount>0)
+        {
+            if (planetsAmount - planetsOnRing > 0)
+                planetsAmount -= planetsOnRing;
+            else
+            {
+                planetsOnRing = planetsAmount;
+                planetsAmount = 0;
+            }
+            angle = 2*Math.PI/planetsOnRing;
+            for (int i = 0; i < planetsOnRing; i++)
+            {
+                xPos = radius*Math.cos(angle*i);
+                yPos = radius*Math.sin(angle*i);
+                if (theView.getSelectedMassPreset() == 1)
+                    mass = Math.random() * theView.getMassFromText() + 125;
+                else
+                    mass = theView.getMassFromText();
+                switch (theView.getSelectedVelPresetItem())
+                {
+                    case 0:
+                        VelVector = GeomFunctions.velVectorforCircle(xPos, yPos, 15 * theView.getMassFromText());
+                        planets.add(new Planet(theView, xPos, yPos, VelVector.getWidth(), VelVector.getHeight(), mass));
+                        break;
+                    case 1:
+                        xVel = Math.random() * theView.getXvelFromText() - theView.getXvelFromText() / 2;
+                        yVel = Math.random() * theView.getYvelFromText() - theView.getYvelFromText() / 2;
+                        planets.add(new Planet(theView, xPos, yPos, xVel, yVel, mass));
+                        break;
+                    case 2:
+                        planets.add(new Planet(theView, xPos, yPos, 0, 0, mass));
+                        break;
+                }
+            }
+            radius*=(double)2/3;
+        }
+    }
+    private void spiralLayout()
+    {
+        int planetsAmount = theView.getPresetTextValue();
+        double xPos, yPos, mass, xVel, yVel;
+        Dimension VelVector;
+        theView.LogEvent("Tworzenie spiral...");
+        planets.add(new Star(theView, 0, 0, 0, 0, 15*theView.getMassFromText(), theView.getStarTime()));
+        int bow = (int)planetsAmount/2;
+        double basedistance = 0.6*theView.getWidth()/(bow+1);
+        for(int i=0; i<bow; i++)
+        {
+            if(theView.getSelectedMassPreset()==1)
+                mass = Math.random()*theView.getMassFromText()+125;
+            else
+                mass = theView.getMassFromText();
+            xPos = (-0.3*theView.getHeight() +i*basedistance);
+            yPos = (-0.3*theView.getHeight() +i*basedistance);
+            switch (theView.getSelectedVelPresetItem())
+            {
+                case 0:
+                    VelVector = GeomFunctions.velVectorforCircle(0, yPos, 15*theView.getMassFromText());
+                    planets.add(new Planet(theView, 0, yPos, VelVector.getWidth(), VelVector.getHeight(), mass));
+                    planets.add(new Planet(theView, 0, -yPos, -VelVector.getWidth(), -VelVector.getHeight(), mass));
+                    break;
+                case 1:
+                    xVel = Math.random()*theView.getXvelFromText()-theView.getXvelFromText()/2;
+                    yVel = Math.random()*theView.getYvelFromText()-theView.getYvelFromText()/2;
+                    planets.add(new Planet(theView, 0, yPos, xVel, yVel, mass));
+                    planets.add(new Planet(theView, 0, -yPos, xVel, yVel, mass));
+                    break;
+                case 2:
+                    planets.add(new Planet(theView, 0,yPos,0,0,mass));
+                    planets.add(new Planet(theView, 0,-yPos,0,0,mass));
+                    break;
+            }
+        }
+    }
+        private void fireworks()
+        {
+            int side = 3;
+            double xPos, yPos, xVel, yVel;
+            double baseXdistance = theView.getWidth()/(side+1);
+            double baseYdistance = theView.getHeight()/(side+1);
+            for(int i=0; i<side; i++)
+                for(int j=0; j<side; j++)
+                {
+                    xPos = -0.4*theView.getWidth() +j*baseXdistance;
+                    yPos = -0.4*theView.getHeight() +i*baseYdistance;
+                    xVel = 7+ (Math.random()-0.5)*5 +j*i;
+                    yVel = 7+ (Math.random()-0.5)*5 +j*i;
+                    planets.add(new Star(theView, xPos, yPos, xVel, yVel, 20000, 20+(j+1)*(i+1)*3));
+                }
+        }
 }
