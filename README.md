@@ -28,7 +28,7 @@ Lwermost right button removes all space objects.
 
 ## Notes:
 
-**This problem has square complexity, with more than ~3000 objects simulation may freeze (its dependant on hardware, its usage etc)**
+**This problem has square complexity, with more than ~3000 objects simulation may freeze (its dependant on hardware, work load etc)**
 
 **Due to java's task queing effect of freezes and 'jumps' may occur with one, or very small number of space objects**
 
