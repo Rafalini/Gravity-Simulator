@@ -13,7 +13,7 @@ To run .jar use:  :$ java -jar Planet_Simulatior_by_Rafalini.jar
 
 By clicking somwhere in black window (Okno na wszechświat) user creates space object (planet or star) with parameters visible in smaller window (Centrum dowodzenia wszechświatem). It is possible to change mass (mass slider) and initial speed (X and Y values, relative to object position not center of the window). To start simulation user has to change time value*(change on time slider, click on "czas++" to increase value by 1 or insert certain value, negative numbers are not supported :P). At this point simulation will procced, it is possible to add new objects all the time.
 
-* *visible movement at time value ~10, the higher this value is the faster objects move but calculation error increases. *
+* visible movement at time value ~10, the higher this value is the faster objects move but calculation error increases.
 
 
 Big text box in the middle is actions log. Buttons above it controll amount of information displayed and check boxes control additional dispaly features: 
