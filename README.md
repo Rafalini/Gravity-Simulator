@@ -26,12 +26,12 @@ It is possible to generate certain presets of space objects (buttons and sliders
 Lwermost right button removes all space objects.
 
 
-Notes:
+**Notes:
 
-*This problem has square complexity, with more than ~3000 objects simulation may freeze (its dependant on hardware, its usage etc)
+**This problem has square complexity, with more than ~3000 objects simulation may freeze (its dependant on hardware, its usage etc)
 
-*Due to java's task queing effect of freezes and 'jumps' may occur with one, or very small number of space objects
+**Due to java's task queing effect of freezes and 'jumps' may occur with one, or very small number of space objects
 
-*Detailed instruction in "planety-dokumentacja.pdf", but for now in polish only
+**Detailed instruction in "planety-dokumentacja.pdf", but for now in polish only
 
-*It is recomended to use java 8 runtime environment, but older versions may wor as well
+**It is recomended to use java 8 runtime environment, but older versions may wor as well
