@@ -27,11 +27,11 @@ It is possible to generate certain presets of space objects (buttons and sliders
 
 Lowermost right button removes all space objects.
 
-
+###Fireworks preset
 ![Grav4](https://user-images.githubusercontent.com/44322872/79970689-97cbdb80-8493-11ea-8404-e428125dc872.JPG)
-
+###Grid preset
 ![Grav3](https://user-images.githubusercontent.com/44322872/79970702-9dc1bc80-8493-11ea-9db3-5df8d88190ec.JPG)
-
+###Grid preset
 ![Grav2](https://user-images.githubusercontent.com/44322872/79970695-9b5f6280-8493-11ea-9540-3c3e0814a85a.JPG)
 
 ## Notes:
