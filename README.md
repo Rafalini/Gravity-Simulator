@@ -1,5 +1,7 @@
 # Planets simulator
 
+![Grav4](https://user-images.githubusercontent.com/44322872/79970689-97cbdb80-8493-11ea-8404-e428125dc872.JPG)
+
 ### Description:
 
 Idea is to simulate gravity influence of stars and planets on each other. It is simplified model, using Verlet integration for calculating position in next quants of time. All units are relative and have no relationship with real units, only principal of movement is recreated. Program is realised in MVC design pattern.
@@ -23,8 +25,14 @@ Big text box in the middle is actions log. Buttons above it controll amount of i
 
 It is possible to generate certain presets of space objects (buttons and sliders below white text field, log pannel). Slider controls amout of objects, first option list decides about shape and layout, second adds initial speed and third sets constant or random mass (random value is based on current mass selected on mass slider, second from the top of the window). Lwermost left button generates selected preset.
 
-Lwermost right button removes all space objects.
+Lowermost right button removes all space objects.
 
+
+![Gravity1](https://user-images.githubusercontent.com/44322872/79970692-99959f00-8493-11ea-91ad-a1078f235e8b.JPG)
+
+![Grav3](https://user-images.githubusercontent.com/44322872/79970702-9dc1bc80-8493-11ea-9db3-5df8d88190ec.JPG)
+
+![Grav2](https://user-images.githubusercontent.com/44322872/79970695-9b5f6280-8493-11ea-9540-3c3e0814a85a.JPG)
 
 ## Notes:
 
