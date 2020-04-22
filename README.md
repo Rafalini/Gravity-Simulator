@@ -1,6 +1,6 @@
 # Planets simulator
 
-![Grav4](https://user-images.githubusercontent.com/44322872/79970689-97cbdb80-8493-11ea-8404-e428125dc872.JPG)
+![Gravity1s](https://user-images.githubusercontent.com/44322872/79970879-e24d5800-8493-11ea-8d5b-7afaa51656af.JPG)
 
 ### Description:
 
@@ -28,7 +28,7 @@ It is possible to generate certain presets of space objects (buttons and sliders
 Lowermost right button removes all space objects.
 
 
-![Gravity1](https://user-images.githubusercontent.com/44322872/79970692-99959f00-8493-11ea-91ad-a1078f235e8b.JPG)
+![Grav4](https://user-images.githubusercontent.com/44322872/79970689-97cbdb80-8493-11ea-8404-e428125dc872.JPG)
 
 ![Grav3](https://user-images.githubusercontent.com/44322872/79970702-9dc1bc80-8493-11ea-9db3-5df8d88190ec.JPG)
 
